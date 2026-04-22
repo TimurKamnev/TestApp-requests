@@ -33,7 +33,12 @@ export const useRequestsStore = create<RequestsStore>()(
 			filters: { page: 1, limit: 15, sortBy: 'priority', sortOrder: 'desc' },
 			setFilters: f =>
 				set(s => ({ filters: { ...s.filters, ...f, page: f.page ?? 1 } })),
-			setListMode: mode => set({ listMode: mode }),
+			setListMode: mode =>
+				set(s => ({
+					listMode: mode,
+					items: [],
+					filters: { ...s.filters, page: 1 },
+				})),
 			setItems: (items, total) => set({ items, total }),
 			appendItems: items => set(s => ({ items: [...s.items, ...items] })),
 			setLoading: loading => set({ loading }),
@@ -42,7 +47,13 @@ export const useRequestsStore = create<RequestsStore>()(
 		}),
 		{
 			name: 'requests-store',
-			partialize: s => ({ filters: s.filters, listMode: s.listMode }),
+			partialize: s => ({
+				filters: {
+					...s.filters,
+					page: s.listMode === 'infinite' ? 1 : s.filters.page,
+				},
+				listMode: s.listMode,
+			}),
 		},
 	),
 )

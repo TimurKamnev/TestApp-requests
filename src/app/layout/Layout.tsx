@@ -5,15 +5,7 @@ export function Layout() {
 
 	return (
 		<>
-			<nav
-				style={{
-					display: 'flex',
-					gap: 24,
-					padding: '12px 24px',
-					borderBottom: '1px solid #e5e7eb',
-					background: 'white',
-				}}
-			>
+			<nav className='navigation-bar'>
 				<Link
 					to='/'
 					style={navLink(pathname === '/' || pathname.startsWith('/requests'))}
@@ -30,7 +22,7 @@ export function Layout() {
 }
 
 const navLink = (active: boolean): React.CSSProperties => ({
-	fontSize: 14,
+	fontSize: 16,
 	fontWeight: active ? 600 : 400,
 	color: active ? '#111827' : '#6b7280',
 	textDecoration: 'none',

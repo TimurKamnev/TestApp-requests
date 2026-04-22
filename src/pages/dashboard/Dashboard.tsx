@@ -26,17 +26,11 @@ export default function Dashboard() {
 		.slice(0, 5)
 
 	return (
-		<div style={{ padding: 24, maxWidth: 1000, margin: '0 auto' }}>
-			<h1 style={{ fontSize: 24, fontWeight: 600, marginBottom: 24 }}>
-				Дашборд
-			</h1>
+		<div className='dashboard'>
+			<h1>Дашборд</h1>
 
-			<h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>
-				По статусам
-			</h2>
-			<div
-				style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}
-			>
+			<h2>По статусам</h2>
+			<div className='dashboard-filter'>
 				<StatCard label='Новые' value={byStatus.new} color='#3b82f6' />
 				<StatCard
 					label='В работе'
@@ -47,38 +41,23 @@ export default function Dashboard() {
 				<StatCard label='Отменены' value={byStatus.canceled} color='#ef4444' />
 			</div>
 
-			<h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>
-				По приоритетам
-			</h2>
-			<div
-				style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}
-			>
+			<h2>По приоритетам</h2>
+			<div className='dashboard-filter'>
 				<StatCard label='Высокий' value={byPriority.high} color='#ef4444' />
 				<StatCard label='Средний' value={byPriority.medium} color='#f59e0b' />
 				<StatCard label='Низкий' value={byPriority.low} color='#6b7280' />
 			</div>
 
-			<h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>
-				5 последних заявок
-			</h2>
-			<div
-				style={{
-					background: '#f9fafb',
-					borderRadius: 10,
-					border: '1px solid #e5e7eb',
-				}}
-			>
+			<h2>5 последних заявок</h2>
+			<div className='dashboard-list'>
 				{recent.map((r, i) => (
 					<div
 						key={r.id}
 						style={{
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '12px 16px',
 							borderBottom:
 								i < recent.length - 1 ? '1px solid #e5e7eb' : 'none',
 						}}
+						className='dashboard-list-item'
 					>
 						<div>
 							<span style={{ fontWeight: 500, fontSize: 14 }}>{r.title}</span>

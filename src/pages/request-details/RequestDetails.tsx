@@ -42,7 +42,7 @@ export default function RequestDetails() {
 	if (notFound)
 		return (
 			<div style={center}>
-				<p style={{ color: '#ef4444', fontSize: 18 }}>Заявка не найдена</p>
+				<p className='not-found'>Заявка не найдена</p>
 				<button onClick={() => navigate('/')} style={backBtn}>
 					← Назад к списку
 				</button>
@@ -51,14 +51,12 @@ export default function RequestDetails() {
 	if (!request) return null
 
 	return (
-		<div style={{ padding: 24, maxWidth: 800, margin: '0 auto' }}>
+		<div className='request-detail'>
 			<button onClick={() => navigate('/')} style={backBtn}>
 				← Назад к списку
 			</button>
 
-			<h1 style={{ fontSize: 22, fontWeight: 600, marginTop: 16 }}>
-				{request.title}
-			</h1>
+			<h1>{request.title}</h1>
 
 			<div style={card}>
 				<Field label='ID' value={`#${request.id}`} />
@@ -77,16 +75,7 @@ export default function RequestDetails() {
 				/>
 			</div>
 
-			<h2
-				style={{
-					fontSize: 18,
-					fontWeight: 600,
-					marginTop: 24,
-					marginBottom: 12,
-				}}
-			>
-				История изменений
-			</h2>
+			<h2>История изменений</h2>
 			<div style={card}>
 				{STATUS_HISTORY.map((h, i) => (
 					<div
@@ -97,40 +86,17 @@ export default function RequestDetails() {
 								i < STATUS_HISTORY.length - 1 ? '1px solid #f3f4f6' : 'none',
 						}}
 					>
-						<span style={{ fontWeight: 500 }}>{h.status}</span>
-						<span style={{ color: '#6b7280', marginLeft: 12, fontSize: 13 }}>
-							{h.comment}
-						</span>
-						<span style={{ color: '#9ca3af', marginLeft: 12, fontSize: 12 }}>
+						<span className='history-status'>{h.status}</span>
+						<span className='history-status'>{h.comment}</span>
+						<span className='history-status'>
 							{new Date(h.date).toLocaleString('ru-RU')}
 						</span>
 					</div>
 				))}
 			</div>
 
-			<h2
-				style={{
-					fontSize: 18,
-					fontWeight: 600,
-					marginTop: 24,
-					marginBottom: 12,
-				}}
-			>
-				Сменить статус
-			</h2>
-			{updateError && (
-				<div
-					style={{
-						padding: 12,
-						background: '#fef2f2',
-						color: '#ef4444',
-						borderRadius: 8,
-						marginBottom: 12,
-					}}
-				>
-					{updateError}
-				</div>
-			)}
+			<h2>Сменить статус</h2>
+			{updateError && <div className='error-message'>{updateError}</div>}
 			<div style={card}>
 				<RequestStatusForm onSubmit={handleStatusUpdate} />
 			</div>
@@ -140,17 +106,8 @@ export default function RequestDetails() {
 
 function Field({ label, value }: { label: string; value: string }) {
 	return (
-		<div
-			style={{
-				display: 'flex',
-				gap: 12,
-				padding: '8px 0',
-				borderBottom: '1px solid #f3f4f6',
-			}}
-		>
-			<span style={{ color: '#6b7280', minWidth: 120, fontSize: 14 }}>
-				{label}
-			</span>
+		<div className='request-field'>
+			<span className='request-field-label'>{label}</span>
 			<span style={{ fontSize: 14 }}>{value}</span>
 		</div>
 	)

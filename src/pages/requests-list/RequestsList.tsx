@@ -38,17 +38,10 @@ export default function RequestsList() {
 	}, [listMode, hasNextPage, loading, filters.page])
 
 	return (
-		<div style={{ padding: 24, maxWidth: 1200, margin: '0 auto' }}>
-			<div
-				style={{
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					marginBottom: 20,
-				}}
-			>
-				<h1 style={{ fontSize: 24, fontWeight: 600 }}>Каталог заявок</h1>
-				<div style={{ display: 'flex', gap: 8 }}>
+		<div className='request-list'>
+			<div className='request-list-header'>
+				<h1>Каталог заявок</h1>
+				<div className='request-list-btns'>
 					<button
 						onClick={() => setListMode('pagination')}
 						style={modeBtn(listMode === 'pagination')}
@@ -66,24 +59,10 @@ export default function RequestsList() {
 
 			<RequestFilters />
 
-			{error && (
-				<div
-					style={{
-						padding: 16,
-						background: '#fef2f2',
-						color: '#ef4444',
-						borderRadius: 8,
-						marginBottom: 16,
-					}}
-				>
-					Ошибка загрузки: {error}
-				</div>
-			)}
+			{error && <div className='error-message'>Ошибка загрузки: {error}</div>}
 
 			{loading && items.length === 0 ? (
-				<div style={{ textAlign: 'center', padding: 48, color: '#6b7280' }}>
-					Загрузка...
-				</div>
+				<div className='loading-message'>Загрузка...</div>
 			) : (
 				<RequestsTable
 					items={items}
@@ -95,34 +74,17 @@ export default function RequestsList() {
 				<>
 					<div ref={sentinelRef} style={{ height: 1 }} />
 					{loading && items.length > 0 && (
-						<div style={{ textAlign: 'center', padding: 16, color: '#6b7280' }}>
-							Загружаем ещё...
-						</div>
+						<div className='loading-message'>Загружаем ещё...</div>
 					)}
 					{!hasNextPage && items.length > 0 && (
-						<div
-							style={{
-								textAlign: 'center',
-								padding: 16,
-								color: '#9ca3af',
-								fontSize: 13,
-							}}
-						>
-							Больше заявок нет
-						</div>
+						<div className='no-more'>Больше заявок нет</div>
 					)}
 				</>
 			)}
 
 			{listMode === 'pagination' && totalPages > 1 && (
 				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						gap: 8,
-						marginTop: 24,
-					}}
+					className='pagination-list'
 				>
 					<button
 						disabled={filters.page === 1}
@@ -131,7 +93,7 @@ export default function RequestsList() {
 					>
 						← Назад
 					</button>
-					<span style={{ fontSize: 14, color: '#6b7280' }}>
+					<span className='pagination-pages'>
 						Страница {filters.page} из {totalPages}
 					</span>
 					<button

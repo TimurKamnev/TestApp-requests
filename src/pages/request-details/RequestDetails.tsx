@@ -43,7 +43,7 @@ export default function RequestDetails() {
 		return (
 			<div style={center}>
 				<p style={{ color: '#ef4444', fontSize: 18 }}>Заявка не найдена</p>
-				<button onClick={() => navigate('/requests')} style={backBtn}>
+				<button onClick={() => navigate('/')} style={backBtn}>
 					← Назад к списку
 				</button>
 			</div>
@@ -52,7 +52,7 @@ export default function RequestDetails() {
 
 	return (
 		<div style={{ padding: 24, maxWidth: 800, margin: '0 auto' }}>
-			<button onClick={() => navigate('/requests')} style={backBtn}>
+			<button onClick={() => navigate('/')} style={backBtn}>
 				← Назад к списку
 			</button>
 

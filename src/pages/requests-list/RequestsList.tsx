@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRequestsStore } from '../../entities/request/model/requestsStore'
 import { useRequestsList } from '../../features/search-requests/useRequestsList'
@@ -15,10 +16,26 @@ export default function RequestsList() {
 		setFilters,
 		listMode,
 		setListMode,
+		hasNextPage,
 	} = useRequestsStore()
 	useRequestsList()
 
+	const sentinelRef = useRef<HTMLDivElement>(null)
 	const totalPages = Math.ceil(total / filters.limit)
+
+	useEffect(() => {
+		if (listMode !== 'infinite') return
+		const observer = new IntersectionObserver(
+			entries => {
+				if (entries[0].isIntersecting && hasNextPage && !loading) {
+					setFilters({ page: filters.page + 1 })
+				}
+			},
+			{ threshold: 0.1 },
+		)
+		if (sentinelRef.current) observer.observe(sentinelRef.current)
+		return () => observer.disconnect()
+	}, [listMode, hasNextPage, loading, filters.page])
 
 	return (
 		<div style={{ padding: 24, maxWidth: 1200, margin: '0 auto' }}>
@@ -72,6 +89,29 @@ export default function RequestsList() {
 					items={items}
 					onRowClick={id => navigate(`/requests/${id}`)}
 				/>
+			)}
+
+			{listMode === 'infinite' && (
+				<>
+					<div ref={sentinelRef} style={{ height: 1 }} />
+					{loading && items.length > 0 && (
+						<div style={{ textAlign: 'center', padding: 16, color: '#6b7280' }}>
+							Загружаем ещё...
+						</div>
+					)}
+					{!hasNextPage && items.length > 0 && (
+						<div
+							style={{
+								textAlign: 'center',
+								padding: 16,
+								color: '#9ca3af',
+								fontSize: 13,
+							}}
+						>
+							Больше заявок нет
+						</div>
+					)}
+				</>
 			)}
 
 			{listMode === 'pagination' && totalPages > 1 && (

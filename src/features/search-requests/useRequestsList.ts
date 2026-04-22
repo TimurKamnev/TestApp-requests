@@ -8,6 +8,7 @@ export function useRequestsList() {
 	const debouncedSearch = useDebouncedValue(store.filters.search, 400)
 
 	const fetchRequests = React.useCallback(async () => {
+		const isAppend = store.listMode === 'infinite' && store.filters.page > 1
 		store.setLoading(true)
 		store.setError(null)
 		try {
@@ -15,13 +16,18 @@ export function useRequestsList() {
 				...store.filters,
 				search: debouncedSearch,
 			})
-			store.setItems(data.items, data.total)
+			if (isAppend) {
+				store.appendItems(data.items)
+			} else {
+				store.setItems(data.items, data.total)
+			}
+			store.setHasNextPage(data.hasNextPage)
 		} catch (e) {
 			store.setError((e as Error).message)
 		} finally {
 			store.setLoading(false)
 		}
-	}, [store.filters, debouncedSearch])
+	}, [store.filters, store.listMode, debouncedSearch])
 
 	React.useEffect(() => {
 		fetchRequests()

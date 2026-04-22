@@ -3,8 +3,17 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { Providers } from './app/providers/index.tsx'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Providers />
-  </StrictMode>,
-)
+async function main() {
+	if (import.meta.env.DEV) {
+		const { worker } = await import('./mocks/browser')
+		await worker.start({ onUnhandledRequest: 'bypass' })
+	}
+
+	createRoot(document.getElementById('root')!).render(
+		<StrictMode>
+			<Providers />
+		</StrictMode>,
+	)
+}
+
+main()

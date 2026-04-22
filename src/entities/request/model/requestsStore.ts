@@ -7,6 +7,7 @@ type ListMode = 'pagination' | 'infinite'
 interface RequestsStore {
 	items: Request[]
 	total: number
+	hasNextPage: boolean
 	loading: boolean
 	error: string | null
 	filters: RequestFilter
@@ -17,6 +18,7 @@ interface RequestsStore {
 	appendItems: (items: Request[]) => void
 	setLoading: (v: boolean) => void
 	setError: (e: string | null) => void
+	setHasNextPage: (v: boolean) => void
 }
 
 export const useRequestsStore = create<RequestsStore>()(
@@ -24,6 +26,7 @@ export const useRequestsStore = create<RequestsStore>()(
 		set => ({
 			items: [],
 			total: 0,
+			hasNextPage: false,
 			loading: false,
 			error: null,
 			listMode: 'pagination',
@@ -35,6 +38,7 @@ export const useRequestsStore = create<RequestsStore>()(
 			appendItems: items => set(s => ({ items: [...s.items, ...items] })),
 			setLoading: loading => set({ loading }),
 			setError: error => set({ error }),
+			setHasNextPage: hasNextPage => set({ hasNextPage }),
 		}),
 		{
 			name: 'requests-store',

@@ -28,7 +28,8 @@ export const useRequestsStore = create<RequestsStore>()(
 			error: null,
 			listMode: 'pagination',
 			filters: { page: 1, limit: 15, sortBy: 'priority', sortOrder: 'desc' },
-			setFilters: f => set(s => ({ filters: { ...s.filters, ...f, page: 1 } })),
+			setFilters: f =>
+				set(s => ({ filters: { ...s.filters, ...f, page: f.page ?? 1 } })),
 			setListMode: mode => set({ listMode: mode }),
 			setItems: (items, total) => set({ items, total }),
 			appendItems: items => set(s => ({ items: [...s.items, ...items] })),

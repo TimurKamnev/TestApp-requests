@@ -1,7 +1,7 @@
 import ky from 'ky'
 
 export const apiClient = ky.create({
-	prefix: '/api',
+	prefix: '/api/',
 	hooks: {
 		afterResponse: [
 			async ({ response }) => {
